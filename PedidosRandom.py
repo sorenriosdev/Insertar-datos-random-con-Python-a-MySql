@@ -13,13 +13,13 @@ conn = mysql.connector.connect(
 cursor = conn.cursor()
 
 
-# Función para obtener un ID aleatorio de una tabla
+# funcion para obtener un id aleatorio
 def obtener_id_aleatorio(tabla, campo_id):
     cursor.execute(f"SELECT {campo_id} FROM {tabla} ORDER BY RAND() LIMIT 1")
     return cursor.fetchone()[0]
 
 
-# Función para generar una fecha aleatoria en los últimos 30 días
+# funcion para generar una fecha aleatoria en los ultimos 30 días
 def generar_fecha_aleatoria():
     fecha_actual = datetime.now()
     dias_aleatorios = random.randint(0, 30)
@@ -27,7 +27,7 @@ def generar_fecha_aleatoria():
     return fecha_aleatoria.strftime('%Y-%m-%d %H:%M:%S')
 
 
-# Función para generar un número de pedido único
+# funcion para generar pedidos unicos
 def generar_numero_pedido():
     return f"2{random.randint(100, 999)}"
 
@@ -42,12 +42,12 @@ estados_pedido = [
 registros_insertados = 0
 numeros_pedido_usados = set()
 
-while registros_insertados < 900:  # Ajusta este número según necesites
+while registros_insertados < 900:
     id_cliente = obtener_id_aleatorio('Clientes', 'id_cliente')
     id_seller = obtener_id_aleatorio('Seller', 'id_seller')
     id_producto = obtener_id_aleatorio('Productos', 'id_producto')
     estado_actual = random.choice(estados_pedido)
-    id_estado = estados_pedido.index(estado_actual) + 1  # Asumiendo que los IDs en EstadosPedido son secuenciales
+    id_estado = estados_pedido.index(estado_actual) + 1
     precio_total = round(Decimal(random.uniform(10, 1000)), 2)
     fecha_creacion = generar_fecha_aleatoria()
 
@@ -67,7 +67,7 @@ while registros_insertados < 900:  # Ajusta este número según necesites
         id_cliente, id_seller, id_estado, id_producto, fecha_creacion, precio_total, estado_actual, numero_pedido))
         registros_insertados += 1
     except mysql.connector.IntegrityError:
-        # Si hay un error de integridad (e.g., duplicado), simplemente continuamos al siguiente intento
+
         continue
 
 # Confirmar los cambios
